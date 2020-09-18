@@ -5,7 +5,7 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus, LCLType,
+  Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, Menus,
   win32menustyler;
 
 type
@@ -13,6 +13,8 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    btnTheme1: TButton;
+    btnTheme2: TButton;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -35,7 +37,9 @@ type
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    procedure FormCreate(Sender: TObject);
+    procedure btnTheme1Click(Sender: TObject);
+    procedure btnTheme2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -51,9 +55,21 @@ implementation
 
 { TForm1 }
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TForm1.FormShow(Sender: TObject);
 begin
-  MenuStyler.ApplyToForm(Self);
+  MenuStyler.ApplyToForm(Self, false);
+end;
+
+procedure TForm1.btnTheme1Click(Sender: TObject);
+begin
+  MenuStylerTheme.ColorBk:= clGreen;
+  MenuStyler.ApplyToForm(Self, true);
+end;
+
+procedure TForm1.btnTheme2Click(Sender: TObject);
+begin
+  MenuStylerTheme.ColorBk:= clPurple;
+  MenuStyler.ApplyToForm(Self, true);
 end;
 
 end.

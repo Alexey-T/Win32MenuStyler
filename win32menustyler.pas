@@ -34,7 +34,7 @@ type
     procedure HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; AState: TOwnerDrawState);
   public
-    procedure ApplyToForm(AForm: TForm);
+    procedure ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
   end;
 
 var
@@ -44,7 +44,7 @@ var
 
 implementation
 
-procedure TWin32MenuStyler.ApplyToForm(AForm: TForm);
+procedure TWin32MenuStyler.ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
 var
   menu: TMainMenu;
   mi: TMENUINFO;
@@ -61,6 +61,14 @@ begin
   mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
   mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
   SetMenuInfo(GetMenu(AForm.Handle), @mi);
+
+  //this repaints manu bar
+  if ARepaintEntireForm then
+    with AForm do
+    begin
+      Width:= Width+1;
+      Width:= Width-1;
+    end;
 end;
 
 procedure TWin32MenuStyler.HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;

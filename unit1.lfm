@@ -4,10 +4,30 @@ object Form1: TForm1
   Top = 286
   Width = 397
   Caption = 'Win32MenuStyler demo'
+  ClientHeight = 248
+  ClientWidth = 397
   Menu = MainMenu1
-  OnCreate = FormCreate
+  OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.10.0'
+  object btnTheme1: TButton
+    Left = 192
+    Height = 25
+    Top = 67
+    Width = 75
+    Caption = 'color1'
+    OnClick = btnTheme1Click
+    TabOrder = 0
+  end
+  object btnTheme2: TButton
+    Left = 192
+    Height = 25
+    Top = 96
+    Width = 75
+    Caption = 'color2'
+    OnClick = btnTheme2Click
+    TabOrder = 1
+  end
   object MainMenu1: TMainMenu
     OwnerDraw = True
     Left = 135
