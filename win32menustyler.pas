@@ -135,6 +135,7 @@ var
   BufA: string;
   BufW: UnicodeString;
   Ext1, Ext2: Types.TSize;
+  R: TRect;
 begin
   mi:= Sender as TMenuItem;
 
@@ -175,7 +176,11 @@ begin
   Y:= (ARect.Top+ARect.Bottom-Ext2.cy) div 2;
 
   BufW:= UTF8Decode(mi.Caption);
-  Windows.TextOutW(ACanvas.Handle, ARect.Left+dx2, Y, PWideChar(BufW), Length(BufW));
+  R.Left:= ARect.Left+dx2;
+  R.Top:= Y;
+  R.Right:= ARect.Right;
+  R.Bottom:= ARect.Bottom;
+  Windows.DrawTextW(ACanvas.Handle, PWideChar(BufW), Length(BufW), R, 0);
 
   if mi.Checked then
   begin

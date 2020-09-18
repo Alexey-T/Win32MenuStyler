@@ -51,9 +51,9 @@ object Form1: TForm1
     Left = 120
     Top = 16
     object MenuItem1: TMenuItem
-      Caption = 'root1'
+      Caption = 'root&1'
       object check1: TMenuItem
-        Caption = 'check1'
+        Caption = 'check&1'
         Checked = True
         ShortCut = 16449
         object MenuItem8: TMenuItem
@@ -68,7 +68,7 @@ object Form1: TForm1
         end
       end
       object check2: TMenuItem
-        Caption = 'check2'
+        Caption = 'check&2'
       end
       object MenuItem15: TMenuItem
         Caption = '-'
@@ -83,7 +83,7 @@ object Form1: TForm1
       end
     end
     object MenuItem2: TMenuItem
-      Caption = 'root2'
+      Caption = 'root&2'
       object MenuItem6: TMenuItem
         Caption = 'radio1'
         RadioItem = True
@@ -113,11 +113,11 @@ object Form1: TForm1
       end
     end
     object MenuItem3: TMenuItem
-      Caption = 'disabled'
+      Caption = '&disabled'
       Enabled = False
     end
     object MenuItem4: TMenuItem
-      Caption = 'root3'
+      Caption = 'root&3'
       object MenuItem16: TMenuItem
         Caption = 'MenuItem16'
       end
