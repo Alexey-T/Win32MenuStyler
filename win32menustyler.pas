@@ -82,9 +82,9 @@ begin
   if mi.IsLine then
   begin
     ACanvas.Pen.Color:= MenuStylerTheme.ColorFontDisabled;
-    dx:= ARect.Left+MenuStylerTheme.IndentX;
+    dx:= MenuStylerTheme.IndentX;
     dy:= (ARect.Top+ARect.Bottom) div 2;
-    ACanvas.Line(dx, dy, ARect.Right-dx, dy);
+    ACanvas.Line(ARect.Left+dx, dy, ARect.Right-dx, dy);
     exit;
   end;
 
