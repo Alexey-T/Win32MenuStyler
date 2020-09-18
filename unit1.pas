@@ -68,6 +68,7 @@ implementation
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  MenuStylerTheme.ColorBk:= clPurple;
   MenuStyler.ApplyToForm(Self, false);
   MenuStyler.ApplyToMenu(PopupMenu1);
 end;
