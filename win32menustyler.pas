@@ -9,7 +9,8 @@ unit win32menustyler;
 interface
 
 uses
-  Windows, SysUtils, Classes, Graphics, Menus, Forms, LCLType;
+  Windows, SysUtils, Classes, Graphics, Menus, Forms,
+  Types, LCLType;
 
 type
   TWin32MenuStylerTheme = record
@@ -23,7 +24,7 @@ type
     FontSize: integer;
     IndentX: integer;
     IndentX2: integer;
-    IndentY: integer;
+    IndentXCheck: integer;
   end;
 
 type
@@ -92,11 +93,14 @@ end;
 
 procedure TWin32MenuStyler.HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
   ARect: TRect; AState: TOwnerDrawState);
+const
+  cSample: string = 'Wj';
 var
   mi: TMenuItem;
-  dx, dy: integer;
+  dx, Y: integer;
   mark: Widechar;
   BufW: UnicodeString;
+  Ext: Types.TSize;
 begin
   mi:= Sender as TMenuItem;
 
@@ -110,8 +114,8 @@ begin
   begin
     ACanvas.Pen.Color:= MenuStylerTheme.ColorFontDisabled;
     dx:= MenuStylerTheme.IndentX;
-    dy:= (ARect.Top+ARect.Bottom) div 2;
-    ACanvas.Line(ARect.Left+dx, dy, ARect.Right-dx, dy);
+    Y:= (ARect.Top+ARect.Bottom) div 2;
+    ACanvas.Line(ARect.Left+dx, Y, ARect.Right-dx, Y);
     exit;
   end;
 
@@ -120,17 +124,20 @@ begin
   else
     ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
 
+  ACanvas.Font.Name:= MenuStylerTheme.FontName;
+  ACanvas.Font.Size:= MenuStylerTheme.FontSize;
+  ACanvas.Font.Style:= [];
+
+  BufW:= UTF8Decode(mi.Caption);
+  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSample), Length(cSample), Ext);
+
   if mi.IsInMenuBar then
     dx:= MenuStylerTheme.IndentX
   else
     dx:= MenuStylerTheme.IndentX2;
-  dy:= MenuStylerTheme.IndentY;
 
-  ACanvas.Font.Name:= MenuStylerTheme.FontName;
-  ACanvas.Font.Size:= MenuStylerTheme.FontSize;
-
-  BufW:= UTF8Decode(mi.Caption);
-  Windows.TextOutW(ACanvas.Handle, ARect.Left+dx, ARect.Top+dy, PWideChar(BufW), Length(BufW));
+  Y:= (ARect.Top+ARect.Bottom-Ext.cy) div 2;
+  Windows.TextOutW(ACanvas.Handle, ARect.Left+dx, Y, PWideChar(BufW), Length(BufW));
 
   if mi.Checked then
   begin
@@ -138,7 +145,7 @@ begin
       mark:= MenuStylerTheme.CharRadiomark
     else
       mark:= MenuStylerTheme.CharCheckmark;
-    Windows.TextOutW(ACanvas.Handle, ARect.Left+2, ARect.Top+dy, @mark, 1);
+    Windows.TextOutW(ACanvas.Handle, ARect.Left+MenuStylerTheme.IndentXCheck, Y, @mark, 1);
   end;
 end;
 
@@ -158,7 +165,7 @@ initialization
     FontSize:= 9;
     IndentX:= 5;
     IndentX2:= 19;
-    IndentY:= 2;
+    IndentXCheck:= 3;
   end;
 
 finalization
