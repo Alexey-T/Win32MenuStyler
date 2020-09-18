@@ -49,12 +49,13 @@ object Form1: TForm1
   object MainMenu1: TMainMenu
     OwnerDraw = True
     Left = 120
-    Top = 24
+    Top = 16
     object MenuItem1: TMenuItem
       Caption = 'root1'
       object check1: TMenuItem
         Caption = 'check1'
         Checked = True
+        ShortCut = 16449
         object MenuItem8: TMenuItem
           Caption = 'check1'
           Checked = True
@@ -78,6 +79,7 @@ object Form1: TForm1
       end
       object normal: TMenuItem
         Caption = 'normal'
+        ShortCut = 49217
       end
     end
     object MenuItem2: TMenuItem
@@ -125,8 +127,8 @@ object Form1: TForm1
     end
   end
   object PopupMenu1: TPopupMenu
-    Left = 160
-    Top = 22
+    Left = 200
+    Top = 16
     object MenuItem18: TMenuItem
       Caption = 'MenuItem18'
       Checked = True
@@ -146,6 +148,7 @@ object Form1: TForm1
       Caption = 'MenuItem21'
       Checked = True
       RadioItem = True
+      ShortCut = 24688
     end
     object MenuItem23: TMenuItem
       Caption = 'MenuItem23'

@@ -10,7 +10,7 @@ interface
 
 uses
   Windows, SysUtils, Classes, Graphics, Menus, Forms,
-  Types, LCLType;
+  Types, LCLType, LCLProc;
 
 type
   TWin32MenuStylerTheme = record
@@ -18,6 +18,7 @@ type
     ColorBkSelected: TColor;
     ColorFont: TColor;
     ColorFontDisabled: TColor;
+    ColorFontShortcut: TColor;
     CharCheckmark: WideChar;
     CharRadiomark: WideChar;
     FontName: string;
@@ -131,6 +132,7 @@ var
   mi: TMenuItem;
   dx1, dx2, dxMin, Y: integer;
   mark: WideChar;
+  BufA: string;
   BufW: UnicodeString;
   Ext1, Ext2: Types.TSize;
 begin
@@ -163,7 +165,6 @@ begin
   ACanvas.Font.Size:= MenuStylerTheme.FontSize;
   ACanvas.Font.Style:= [];
 
-  BufW:= UTF8Decode(mi.Caption);
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleBig), Length(cSampleBig), Ext2);
 
   if mi.IsInMenuBar then
@@ -172,6 +173,8 @@ begin
     dx2:= Ext2.cx;
 
   Y:= (ARect.Top+ARect.Bottom-Ext2.cy) div 2;
+
+  BufW:= UTF8Decode(mi.Caption);
   Windows.TextOutW(ACanvas.Handle, ARect.Left+dx2, Y, PWideChar(BufW), Length(BufW));
 
   if mi.Checked then
@@ -181,6 +184,14 @@ begin
     else
       mark:= MenuStylerTheme.CharCheckmark;
     Windows.TextOutW(ACanvas.Handle, ARect.Left+dxMin, Y, @mark, 1);
+  end;
+
+  if mi.ShortCut<>0 then
+  begin
+    BufA:= ShortCutToText(mi.Shortcut);
+    ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
+    Windows.GetTextExtentPoint(ACanvas.Handle, PChar(BufA), Length(BufA), Ext2);
+    Windows.TextOut(ACanvas.Handle, ARect.Right-dx2-Ext2.cx, Y, PChar(BufA), Length(BufA));
   end;
 end;
 
@@ -194,6 +205,7 @@ initialization
     ColorBkSelected:= clNavy;
     ColorFont:= clWhite;
     ColorFontDisabled:= clMedGray;
+    ColorFontShortcut:= clYellow;
     CharCheckmark:= #$2713;
     CharRadiomark:= #$25CF; //#$2022;
     FontName:= 'default';
