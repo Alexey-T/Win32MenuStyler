@@ -34,6 +34,8 @@ type
   public
     procedure ApplyToMenu(AMenu: TMenu);
     procedure ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
+    procedure ResetMenu(AMenu: TMenu);
+    procedure ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
   end;
 
 var
@@ -77,6 +79,38 @@ begin
   mi.cbSize:= sizeof(mi);
   mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
   mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
+  SetMenuInfo(GetMenu(AForm.Handle), @mi);
+
+  //repaint the menu bar
+  if ARepaintEntireForm then
+    with AForm do
+    begin
+      Width:= Width+1;
+      Width:= Width-1;
+    end;
+end;
+
+procedure TWin32MenuStyler.ResetMenu(AMenu: TMenu);
+begin
+  AMenu.OwnerDraw:= false;
+  AMenu.OnDrawItem:= nil;
+end;
+
+procedure TWin32MenuStyler.ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
+var
+  menu: TMenu;
+  mi: TMENUINFO;
+begin
+  menu:= AForm.Menu;
+  if menu=nil then exit;
+
+  ResetMenu(menu);
+
+  //this is to theme 2-3 pixel frame around menu popups
+  FillChar(mi{%H-}, sizeof(mi), 0);
+  mi.cbSize:= sizeof(mi);
+  mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
+  mi.hbrBack:= 0;
   SetMenuInfo(GetMenu(AForm.Handle), @mi);
 
   //repaint the menu bar

@@ -15,6 +15,7 @@ type
   TForm1 = class(TForm)
     btnTheme1: TButton;
     btnTheme2: TButton;
+    btnReset: TButton;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -46,6 +47,7 @@ type
     PopupMenu1: TPopupMenu;
     btnPopup: TButton;
     procedure btnPopupClick(Sender: TObject);
+    procedure btnResetClick(Sender: TObject);
     procedure btnTheme1Click(Sender: TObject);
     procedure btnTheme2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -90,6 +92,12 @@ var
 begin
   p:= btnPopup.ClientToScreen(Point(0, btnPopup.Height));
   PopupMenu1.PopUp(p.x, p.y);
+end;
+
+procedure TForm1.btnResetClick(Sender: TObject);
+begin
+  MenuStyler.ResetForm(Self, true);
+  MenuStyler.ResetMenu(PopupMenu1);
 end;
 
 
