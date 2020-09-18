@@ -110,7 +110,7 @@ begin
 
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), Ext1);
   dx1:= Ext1.cx;
-  dxMin:= dx1 div 4;
+  dxMin:= dx1 div 3;
 
   if mi.IsLine then
   begin
