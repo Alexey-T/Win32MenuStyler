@@ -28,10 +28,19 @@ object Form1: TForm1
     OnClick = btnTheme2Click
     TabOrder = 1
   end
+  object btnPopup: TButton
+    Left = 24
+    Height = 25
+    Top = 69
+    Width = 128
+    Caption = 'popupmenu test'
+    OnClick = btnPopupClick
+    TabOrder = 2
+  end
   object MainMenu1: TMainMenu
     OwnerDraw = True
-    Left = 135
-    Top = 69
+    Left = 120
+    Top = 24
     object MenuItem1: TMenuItem
       Caption = 'root1'
       object check1: TMenuItem
@@ -104,6 +113,34 @@ object Form1: TForm1
       object MenuItem17: TMenuItem
         Caption = 'MenuItem17'
       end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 160
+    Top = 22
+    object MenuItem18: TMenuItem
+      Caption = 'MenuItem18'
+      Checked = True
+    end
+    object MenuItem19: TMenuItem
+      Caption = 'MenuItem19'
+      Checked = True
+    end
+    object MenuItem20: TMenuItem
+      Caption = 'MenuItem20'
+      Enabled = False
+    end
+    object MenuItem22: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem21: TMenuItem
+      Caption = 'MenuItem21'
+      Checked = True
+      RadioItem = True
+    end
+    object MenuItem23: TMenuItem
+      Caption = 'MenuItem23'
+      RadioItem = True
     end
   end
 end

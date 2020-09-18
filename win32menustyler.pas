@@ -34,6 +34,7 @@ type
     procedure HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; AState: TOwnerDrawState);
   public
+    procedure ApplyToMenu(AMenu: TMenu);
     procedure ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
   end;
 
@@ -44,6 +45,25 @@ var
 
 implementation
 
+procedure TWin32MenuStyler.ApplyToMenu(AMenu: TMenu);
+{
+var
+  mi: TMENUINFO;
+  }
+begin
+  AMenu.OwnerDraw:= true;
+  AMenu.OnDrawItem:= @HandleMenuDrawItem;
+
+  {//it dont work!
+  //this is to theme 2-3 pixel frame around menu popups
+  FillChar(mi{%H-}, sizeof(mi), 0);
+  mi.cbSize:= sizeof(mi);
+  mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
+  mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
+  SetMenuInfo(AMenu.Handle, @mi);
+  }
+end;
+
 procedure TWin32MenuStyler.ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
 var
   menu: TMainMenu;
@@ -52,8 +72,7 @@ begin
   menu:= AForm.Menu;
   if menu=nil then exit;
 
-  menu.OwnerDraw:= true;
-  menu.OnDrawItem:= @HandleMenuDrawItem;
+  ApplyToMenu(menu);
 
   //this is to theme 2-3 pixel frame around menu popups
   FillChar(mi{%H-}, sizeof(mi), 0);
@@ -62,7 +81,7 @@ begin
   mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
   SetMenuInfo(GetMenu(AForm.Handle), @mi);
 
-  //this repaints manu bar
+  //repaint the menu bar
   if ARepaintEntireForm then
     with AForm do
     begin
@@ -138,7 +157,7 @@ initialization
     FontName:= 'default';
     FontSize:= 9;
     IndentX:= 5;
-    IndentX2:= 21;
+    IndentX2:= 19;
     IndentY:= 2;
   end;
 

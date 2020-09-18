@@ -26,7 +26,13 @@ type
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
+    MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
     MenuItem3: TMenuItem;
     check1: TMenuItem;
     disabled1: TMenuItem;
@@ -37,6 +43,9 @@ type
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
+    PopupMenu1: TPopupMenu;
+    btnPopup: TButton;
+    procedure btnPopupClick(Sender: TObject);
     procedure btnTheme1Click(Sender: TObject);
     procedure btnTheme2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -58,19 +67,31 @@ implementation
 procedure TForm1.FormShow(Sender: TObject);
 begin
   MenuStyler.ApplyToForm(Self, false);
+  MenuStyler.ApplyToMenu(PopupMenu1);
 end;
 
 procedure TForm1.btnTheme1Click(Sender: TObject);
 begin
   MenuStylerTheme.ColorBk:= clGreen;
   MenuStyler.ApplyToForm(Self, true);
+  MenuStyler.ApplyToMenu(PopupMenu1);
 end;
 
 procedure TForm1.btnTheme2Click(Sender: TObject);
 begin
   MenuStylerTheme.ColorBk:= clPurple;
   MenuStyler.ApplyToForm(Self, true);
+  MenuStyler.ApplyToMenu(PopupMenu1);
 end;
+
+procedure TForm1.btnPopupClick(Sender: TObject);
+var
+  p: TPoint;
+begin
+  p:= btnPopup.ClientToScreen(Point(0, btnPopup.Height));
+  PopupMenu1.PopUp(p.x, p.y);
+end;
+
 
 end.
 
