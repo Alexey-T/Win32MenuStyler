@@ -73,15 +73,25 @@ var
 begin
   mi:= Sender as TMenuItem;
 
-  if odDisabled in AState then
-    ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
-  else
-    ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
-
   if odSelected in AState then
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected
   else
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBk;
+  ACanvas.FillRect(ARect);
+
+  if mi.IsLine then
+  begin
+    ACanvas.Pen.Color:= MenuStylerTheme.ColorFontDisabled;
+    dx:= ARect.Left+MenuStylerTheme.IndentX;
+    dy:= (ARect.Top+ARect.Bottom) div 2;
+    ACanvas.Line(dx, dy, ARect.Right-dx, dy);
+    exit;
+  end;
+
+  if odDisabled in AState then
+    ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
+  else
+    ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
 
   if mi.IsInMenuBar then
     dx:= MenuStylerTheme.IndentX
@@ -89,7 +99,6 @@ begin
     dx:= MenuStylerTheme.IndentX2;
   dy:= MenuStylerTheme.IndentY;
 
-  ACanvas.FillRect(ARect);
   ACanvas.Font.Name:= MenuStylerTheme.FontName;
   ACanvas.Font.Size:= MenuStylerTheme.FontSize;
 
