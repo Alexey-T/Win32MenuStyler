@@ -22,9 +22,6 @@ type
     CharRadiomark: Widechar;
     FontName: string;
     FontSize: integer;
-    IndentX: integer;
-    IndentX2: integer;
-    IndentXCheck: integer;
   end;
 
 type
@@ -94,13 +91,14 @@ end;
 procedure TWin32MenuStyler.HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
   ARect: TRect; AState: TOwnerDrawState);
 const
-  cSample: string = 'Wj';
+  cSample = 'Wj';
+  cSampleShort = '0';
 var
   mi: TMenuItem;
-  dx, Y: integer;
+  dx1, dx2, dxMin, Y: integer;
   mark: Widechar;
   BufW: UnicodeString;
-  Ext: Types.TSize;
+  Ext1, Ext2: Types.TSize;
 begin
   mi:= Sender as TMenuItem;
 
@@ -110,12 +108,15 @@ begin
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBk;
   ACanvas.FillRect(ARect);
 
+  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), Ext1);
+  dx1:= Ext1.cx;
+  dxMin:= dx1 div 4;
+
   if mi.IsLine then
   begin
     ACanvas.Pen.Color:= MenuStylerTheme.ColorFontDisabled;
-    dx:= MenuStylerTheme.IndentX;
     Y:= (ARect.Top+ARect.Bottom) div 2;
-    ACanvas.Line(ARect.Left+dx, Y, ARect.Right-dx, Y);
+    ACanvas.Line(ARect.Left+dxMin, Y, ARect.Right-dxMin, Y);
     exit;
   end;
 
@@ -129,15 +130,16 @@ begin
   ACanvas.Font.Style:= [];
 
   BufW:= UTF8Decode(mi.Caption);
-  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSample), Length(cSample), Ext);
+  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSample), Length(cSample), Ext2);
+  dx2:= Ext2.cx;
 
   if mi.IsInMenuBar then
-    dx:= MenuStylerTheme.IndentX
+    dx2:= dx1
   else
-    dx:= MenuStylerTheme.IndentX2;
+    dx2:= Ext2.cx;
 
-  Y:= (ARect.Top+ARect.Bottom-Ext.cy) div 2;
-  Windows.TextOutW(ACanvas.Handle, ARect.Left+dx, Y, PWideChar(BufW), Length(BufW));
+  Y:= (ARect.Top+ARect.Bottom-Ext2.cy) div 2;
+  Windows.TextOutW(ACanvas.Handle, ARect.Left+dx2, Y, PWideChar(BufW), Length(BufW));
 
   if mi.Checked then
   begin
@@ -145,7 +147,7 @@ begin
       mark:= MenuStylerTheme.CharRadiomark
     else
       mark:= MenuStylerTheme.CharCheckmark;
-    Windows.TextOutW(ACanvas.Handle, ARect.Left+MenuStylerTheme.IndentXCheck, Y, @mark, 1);
+    Windows.TextOutW(ACanvas.Handle, ARect.Left+dxMin, Y, @mark, 1);
   end;
 end;
 
@@ -163,9 +165,6 @@ initialization
     CharRadiomark:= #$25CF; //#$2022;
     FontName:= 'default';
     FontSize:= 9;
-    IndentX:= 5;
-    IndentX2:= 19;
-    IndentXCheck:= 3;
   end;
 
 finalization
