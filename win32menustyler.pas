@@ -18,8 +18,8 @@ type
     ColorBkSelected: TColor;
     ColorFont: TColor;
     ColorFontDisabled: TColor;
-    CharCheckmark: Widechar;
-    CharRadiomark: Widechar;
+    CharCheckmark: WideChar;
+    CharRadiomark: WideChar;
     FontName: string;
     FontSize: integer;
   end;
@@ -91,12 +91,12 @@ end;
 procedure TWin32MenuStyler.HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
   ARect: TRect; AState: TOwnerDrawState);
 const
-  cSample = 'Wj';
   cSampleShort = '0';
+  cSampleBig = 'Wj';
 var
   mi: TMenuItem;
   dx1, dx2, dxMin, Y: integer;
-  mark: Widechar;
+  mark: WideChar;
   BufW: UnicodeString;
   Ext1, Ext2: Types.TSize;
 begin
@@ -130,8 +130,7 @@ begin
   ACanvas.Font.Style:= [];
 
   BufW:= UTF8Decode(mi.Caption);
-  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSample), Length(cSample), Ext2);
-  dx2:= Ext2.cx;
+  Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleBig), Length(cSampleBig), Ext2);
 
   if mi.IsInMenuBar then
     dx2:= dx1
