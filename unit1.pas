@@ -16,6 +16,7 @@ type
     btnTheme1: TButton;
     btnTheme2: TButton;
     btnReset: TButton;
+    ImageList1: TImageList;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
