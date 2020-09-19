@@ -52,7 +52,7 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnTheme1Click(Sender: TObject);
     procedure btnTheme2Click(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     FOrigWndState: TWindowState;
     FOrigBounds: TRect;
@@ -72,11 +72,6 @@ implementation
 
 { TForm1 }
 
-procedure TForm1.FormShow(Sender: TObject);
-begin
-  SetTheme(clPurple);
-end;
-
 procedure TForm1.btnTheme1Click(Sender: TObject);
 begin
   SetTheme(clGreen);
@@ -85,6 +80,11 @@ end;
 procedure TForm1.btnTheme2Click(Sender: TObject);
 begin
   SetTheme(clNavy);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  SetTheme(clPurple);
 end;
 
 procedure TForm1.btnPopupClick(Sender: TObject);

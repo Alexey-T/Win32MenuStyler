@@ -8,7 +8,7 @@ object Form1: TForm1
   ClientWidth = 397
   Color = clPurple
   Menu = MainMenu1
-  OnShow = FormShow
+  OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.10.0'
   object btnTheme1: TButton
