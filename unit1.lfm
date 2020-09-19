@@ -141,6 +141,7 @@ object Form1: TForm1
     object MenuItem20: TMenuItem
       Caption = 'MenuItem20'
       Enabled = False
+      ShortCut = 16449
     end
     object MenuItem22: TMenuItem
       Caption = '-'

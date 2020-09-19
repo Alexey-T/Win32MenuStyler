@@ -195,8 +195,11 @@ begin
 
   if mi.ShortCut<>0 then
   begin
+    if odDisabled in AState then
+      ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
+    else
+      ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
     BufA:= ShortCutToText(mi.Shortcut);
-    ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
     Windows.GetTextExtentPoint(ACanvas.Handle, PChar(BufA), Length(BufA), Ext2);
     Windows.TextOut(ACanvas.Handle,
       ARect.Right - Ext2.cx - Ext1.cx*MenuStylerTheme.IndentRightPercents div 100,
