@@ -118,6 +118,7 @@ procedure TForm1.SetTheme(AColor: TColor);
 begin
   Self.Color:= AColor;
   MenuStylerTheme.ColorBk:= AColor;
+  MenuStylerTheme.ColorBkSelected:= clDkGray;
   MenuStyler.ApplyToForm(Self, true);
   MenuStyler.ApplyToMenu(PopupMenu1);
 end;
