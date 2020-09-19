@@ -57,6 +57,7 @@ type
     FOrigWndState: TWindowState;
     FOrigBounds: TRect;
     procedure SetFullScreen(AValue: boolean);
+    procedure SetTheme(AColor: TColor);
 
   public
 
@@ -73,23 +74,17 @@ implementation
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  MenuStylerTheme.ColorBk:= clPurple;
-  MenuStyler.ApplyToForm(Self, false);
-  MenuStyler.ApplyToMenu(PopupMenu1);
+  SetTheme(clPurple);
 end;
 
 procedure TForm1.btnTheme1Click(Sender: TObject);
 begin
-  MenuStylerTheme.ColorBk:= clGreen;
-  MenuStyler.ApplyToForm(Self, true);
-  MenuStyler.ApplyToMenu(PopupMenu1);
+  SetTheme(clGreen);
 end;
 
 procedure TForm1.btnTheme2Click(Sender: TObject);
 begin
-  MenuStylerTheme.ColorBk:= clPurple;
-  MenuStyler.ApplyToForm(Self, true);
-  MenuStyler.ApplyToMenu(PopupMenu1);
+  SetTheme(clNavy);
 end;
 
 procedure TForm1.btnPopupClick(Sender: TObject);
@@ -118,6 +113,14 @@ begin
   end;
 end;
 
+procedure TForm1.SetTheme(AColor: TColor);
+begin
+  Self.Color:= AColor;
+  MenuStylerTheme.ColorBk:= AColor;
+  MenuStyler.ApplyToForm(Self, true);
+  MenuStyler.ApplyToMenu(PopupMenu1);
+end;
+
 procedure TForm1.btnFullScrChange(Sender: TObject);
 begin
   SetFullScreen(btnFullScr.Checked);
@@ -125,6 +128,7 @@ end;
 
 procedure TForm1.btnResetClick(Sender: TObject);
 begin
+  Color:= clWindow;
   MenuStyler.ResetForm(Self, true);
   MenuStyler.ResetMenu(PopupMenu1);
 end;
