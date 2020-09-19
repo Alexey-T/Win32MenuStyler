@@ -90,6 +90,24 @@ object Form1: TForm1
       object normal: TMenuItem
         Caption = 'normal'
         ShortCut = 49217
+        object MenuItem24: TMenuItem
+          Caption = 'MenuItem24'
+          object MenuItem27: TMenuItem
+            Caption = 'MenuItem27'
+          end
+          object MenuItem28: TMenuItem
+            Caption = 'MenuItem28'
+          end
+          object MenuItem29: TMenuItem
+            Caption = 'MenuItem29'
+          end
+        end
+        object MenuItem25: TMenuItem
+          Caption = 'MenuItem25'
+        end
+        object MenuItem26: TMenuItem
+          Caption = 'MenuItem26'
+        end
       end
     end
     object MenuItem2: TMenuItem
@@ -146,11 +164,41 @@ object Form1: TForm1
     object MenuItem19: TMenuItem
       Caption = 'MenuItem19'
       Checked = True
+      object MenuItem30: TMenuItem
+        Caption = 'MenuItem30'
+      end
+      object MenuItem31: TMenuItem
+        Caption = 'MenuItem31'
+      end
+      object MenuItem32: TMenuItem
+        Caption = 'MenuItem32'
+      end
+      object MenuItem33: TMenuItem
+        Caption = 'MenuItem33'
+        object MenuItem34: TMenuItem
+          Caption = 'MenuItem34'
+        end
+        object MenuItem35: TMenuItem
+          Caption = 'MenuItem35'
+        end
+        object MenuItem36: TMenuItem
+          Caption = 'MenuItem36'
+        end
+      end
     end
     object MenuItem20: TMenuItem
       Caption = 'MenuItem20'
       Enabled = False
       ShortCut = 16449
+      object MenuItem37: TMenuItem
+        Caption = 'MenuItem37'
+      end
+      object MenuItem38: TMenuItem
+        Caption = 'MenuItem38'
+      end
+      object MenuItem39: TMenuItem
+        Caption = 'MenuItem39'
+      end
     end
     object MenuItem22: TMenuItem
       Caption = '-'
