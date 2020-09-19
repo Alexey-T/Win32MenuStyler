@@ -111,7 +111,8 @@ begin
     BorderStyle:= bsSizeable;
     BoundsRect:= FOrigBounds; //again
   end;
-  MenuStyler.ApplyToForm(Self, true);
+  if Color<>clWindow then
+    MenuStyler.ApplyToForm(Self, true);
 end;
 
 procedure TForm1.SetTheme(AColor: TColor);
