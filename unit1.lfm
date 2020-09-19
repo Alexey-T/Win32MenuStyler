@@ -47,10 +47,19 @@ object Form1: TForm1
     OnClick = btnResetClick
     TabOrder = 3
   end
+  object btnFullScr: TToggleBox
+    Left = 24
+    Height = 25
+    Top = 40
+    Width = 128
+    Caption = 'toggle full-screen'
+    OnChange = btnFullScrChange
+    TabOrder = 4
+  end
   object MainMenu1: TMainMenu
     OwnerDraw = True
-    Left = 120
-    Top = 16
+    Left = 208
+    Top = 8
     object MenuItem1: TMenuItem
       Caption = 'root&1'
       object check1: TMenuItem
@@ -128,8 +137,8 @@ object Form1: TForm1
     end
   end
   object PopupMenu1: TPopupMenu
-    Left = 200
-    Top = 16
+    Left = 288
+    Top = 8
     object MenuItem18: TMenuItem
       Caption = 'MenuItem18'
       Checked = True

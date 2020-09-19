@@ -46,12 +46,17 @@ type
     MenuItem9: TMenuItem;
     PopupMenu1: TPopupMenu;
     btnPopup: TButton;
+    btnFullScr: TToggleBox;
+    procedure btnFullScrChange(Sender: TObject);
     procedure btnPopupClick(Sender: TObject);
     procedure btnResetClick(Sender: TObject);
     procedure btnTheme1Click(Sender: TObject);
     procedure btnTheme2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
+    FOrigWndState: TWindowState;
+    FOrigBounds: TRect;
+    procedure SetFullScreen(AValue: boolean);
 
   public
 
@@ -93,6 +98,29 @@ var
 begin
   p:= btnPopup.ClientToScreen(Point(0, btnPopup.Height));
   PopupMenu1.PopUp(p.x, p.y);
+end;
+
+procedure TForm1.SetFullScreen(AValue: boolean);
+begin
+  if AValue then
+  begin
+    FOrigWndState:= WindowState;
+    FOrigBounds:= BoundsRect;
+    BorderStyle:= bsNone;
+    BoundsRect:= Monitor.BoundsRect;
+  end
+  else
+  begin
+    WindowState:= FOrigWndState;
+    BoundsRect:= FOrigBounds;
+    BorderStyle:= bsSizeable;
+    BoundsRect:= FOrigBounds; //again
+  end;
+end;
+
+procedure TForm1.btnFullScrChange(Sender: TObject);
+begin
+  SetFullScreen(btnFullScr.Checked);
 end;
 
 procedure TForm1.btnResetClick(Sender: TObject);
