@@ -84,29 +84,38 @@ object Form1: TForm1
         Caption = '-'
       end
       object disabled1: TMenuItem
-        Caption = 'disabled1'
+        Caption = 'disabled'
         Enabled = False
       end
       object normal: TMenuItem
         Caption = 'normal'
         ShortCut = 49217
         object MenuItem24: TMenuItem
-          Caption = 'MenuItem24'
+          Caption = 'sub'
           object MenuItem27: TMenuItem
-            Caption = 'MenuItem27'
+            Caption = 'ddd'
+            Checked = True
           end
           object MenuItem28: TMenuItem
-            Caption = 'MenuItem28'
+            Caption = 'eee'
+            Checked = True
           end
           object MenuItem29: TMenuItem
-            Caption = 'MenuItem29'
+            Caption = 'disabled'
+            Enabled = False
           end
         end
+        object MenuItem40: TMenuItem
+          Caption = '-'
+        end
         object MenuItem25: TMenuItem
-          Caption = 'MenuItem25'
+          Caption = 'radio'
+          Checked = True
+          RadioItem = True
         end
         object MenuItem26: TMenuItem
-          Caption = 'MenuItem26'
+          Caption = 'radio'
+          RadioItem = True
         end
       end
     end
@@ -147,10 +156,10 @@ object Form1: TForm1
     object MenuItem4: TMenuItem
       Caption = 'root&3'
       object MenuItem16: TMenuItem
-        Caption = 'MenuItem16'
+        Caption = 'dd'
       end
       object MenuItem17: TMenuItem
-        Caption = 'MenuItem17'
+        Caption = 'ee'
       end
     end
   end
