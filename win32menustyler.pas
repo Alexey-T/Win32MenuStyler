@@ -143,13 +143,13 @@ var
   ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
   Images: TCustomImageList;
-  bDisabled: boolean;
-  bInBar: boolean;
+  bDisabled, bInBar, bHasSubmenu: boolean;
   R: TRect;
 begin
   mi:= Sender as TMenuItem;
   bDisabled:= odDisabled in AState;
   bInBar:= mi.IsInMenuBar;
+  bHasSubmenu:= (not bInBar) and (mi.Count>0);
 
   if odSelected in AState then
     ACanvas.Brush.Color:= MenuStylerTheme.ColorBkSelected
@@ -234,7 +234,7 @@ begin
       Length(BufA));
   end;
 
-  if (not bInBar) and (mi.Count > 0) then
+  if bHasSubmenu then
   begin
     if bDisabled then
       ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
