@@ -136,7 +136,7 @@ const
   cSampleTall = 'Wj';
 var
   mi: TMenuItem;
-  dx, dxMin, dxBig, Y: integer;
+  dx, dxCell, dxMin, dxBig, Y: integer;
   mark: WideChar;
   BufA: string;
   BufW: UnicodeString;
@@ -158,12 +158,13 @@ begin
   ACanvas.FillRect(ARect);
 
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), ExtCell);
-  dxMin:= ExtCell.cx * MenuStylerTheme.IndentMinPercents div 100;
-  dxBig:= ExtCell.cx * MenuStylerTheme.IndentBigPercents div 100;
+  dxCell:= ExtCell.cx;
+  dxMin:= dxCell * MenuStylerTheme.IndentMinPercents div 100;
+  dxBig:= dxCell * MenuStylerTheme.IndentBigPercents div 100;
 
   Images:= mi.GetParentMenu.Images;
   if Assigned(Images) then
-    dxBig:= Max(dxBig, Images.Width + ExtCell.cx div 2);
+    dxBig:= Max(dxBig, Images.Width + dxCell div 2);
 
   if mi.IsLine then
   begin
@@ -185,7 +186,7 @@ begin
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleTall), Length(cSampleTall), ExtTall);
 
   if bInBar then
-    dx:= ExtCell.cx
+    dx:= dxCell
   else
     dx:= dxBig;
 
@@ -227,7 +228,7 @@ begin
     BufA:= ShortCutToText(mi.Shortcut);
     Windows.GetTextExtentPoint(ACanvas.Handle, PChar(BufA), Length(BufA), Ext2);
     Windows.TextOut(ACanvas.Handle,
-      ARect.Right - Ext2.cx - ExtCell.cx*MenuStylerTheme.IndentRightPercents div 100,
+      ARect.Right - Ext2.cx - dxCell*MenuStylerTheme.IndentRightPercents div 100,
       Y,
       PChar(BufA),
       Length(BufA));
@@ -241,14 +242,14 @@ begin
       ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
 
     Windows.TextOutW(ACanvas.Handle,
-      ARect.Right - ExtCell.cx*MenuStylerTheme.IndentSubmenuArrowPercents div 100,
+      ARect.Right - dxCell*MenuStylerTheme.IndentSubmenuArrowPercents div 100,
       Y,
       @MenuStylerTheme.CharSubmenu,
       1);
 
     //block OS drawing of submenu arrow
     Windows.ExcludeClipRect(ACanvas.Handle,
-      ARect.Right - ExtCell.cx*MenuStylerTheme.IndentRightPercents div 100,
+      ARect.Right - dxCell*MenuStylerTheme.IndentRightPercents div 100,
       ARect.Top,
       ARect.Right,
       ARect.Bottom);
