@@ -27,6 +27,7 @@ type
     FontSize: integer;
     IndentMinPercents: integer;
     IndentBigPercents: integer;
+    IndentIconPercents: integer;
     IndentRightPercents: integer;
     IndentSubmenuArrowPercents: integer;
   end;
@@ -136,14 +137,13 @@ const
   cSampleTall = 'Wj';
 var
   mi: TMenuItem;
+  Images: TCustomImageList;
   dx, dxCell, dxMin, dxBig, Y: integer;
-  mark: WideChar;
-  BufA: string;
-  BufW: UnicodeString;
   ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
-  Images: TCustomImageList;
   bDisabled, bInBar, bHasSubmenu: boolean;
+  BufW: UnicodeString;
+  mark: WideChar;
   R: TRect;
 begin
   mi:= Sender as TMenuItem;
@@ -164,7 +164,7 @@ begin
 
   Images:= mi.GetParentMenu.Images;
   if Assigned(Images) then
-    dxBig:= Max(dxBig, Images.Width + dxCell div 2);
+    dxBig:= Max(dxBig, Images.Width + dxCell * MenuStylerTheme.IndentIconPercents * 2 div 100);
 
   if mi.IsLine then
   begin
@@ -206,7 +206,9 @@ begin
 
   if (not bInBar) and Assigned(Images) and (mi.ImageIndex>=0) then
   begin
-    Images.Draw(ACanvas, 0, (ARect.Top+ARect.Bottom-Images.Height) div 2,
+    Images.Draw(ACanvas,
+      dxCell * MenuStylerTheme.IndentIconPercents div 100,
+      (ARect.Top+ARect.Bottom-Images.Height) div 2,
       mi.ImageIndex, not bDisabled);
   end
   else
@@ -216,7 +218,9 @@ begin
       mark:= MenuStylerTheme.CharRadiomark
     else
       mark:= MenuStylerTheme.CharCheckmark;
-    Windows.TextOutW(ACanvas.Handle, ARect.Left+dxMin, Y, @mark, 1);
+    Windows.TextOutW(ACanvas.Handle,
+      ARect.Left+ (dx-dxCell) div 2,
+      Y, @mark, 1);
   end;
 
   if mi.ShortCut<>0 then
@@ -225,13 +229,11 @@ begin
       ACanvas.Font.Color:= MenuStylerTheme.ColorFontDisabled
     else
       ACanvas.Font.Color:= MenuStylerTheme.ColorFontShortcut;
-    BufA:= ShortCutToText(mi.Shortcut);
-    Windows.GetTextExtentPoint(ACanvas.Handle, PChar(BufA), Length(BufA), Ext2);
-    Windows.TextOut(ACanvas.Handle,
+    BufW:= UTF8Decode(ShortCutToText(mi.Shortcut));
+    Windows.GetTextExtentPointW(ACanvas.Handle, PWideChar(BufW), Length(BufW), Ext2);
+    Windows.TextOutW(ACanvas.Handle,
       ARect.Right - Ext2.cx - dxCell*MenuStylerTheme.IndentRightPercents div 100,
-      Y,
-      PChar(BufA),
-      Length(BufA));
+      Y, PWideChar(BufW), Length(BufW));
   end;
 
   if bHasSubmenu then
@@ -274,6 +276,7 @@ initialization
     FontSize:= 9;
     IndentMinPercents:= 50;
     IndentBigPercents:= 300;
+    IndentIconPercents:= 40;
     IndentRightPercents:= 250;
     IndentSubmenuArrowPercents:= 150;
   end;
