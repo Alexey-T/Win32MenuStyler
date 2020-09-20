@@ -140,6 +140,7 @@ const
 var
   mi: TMenuItem;
   Images: TCustomImageList;
+  IconW, IconH: integer;
   dx, dxCell, dxMin, dxBig, Y: integer;
   ExtCell, ExtTall, Ext2: Types.TSize;
   NDrawFlags: UINT;
@@ -164,9 +165,18 @@ begin
   dxMin:= dxCell * MenuStylerTheme.IndentMinPercents div 100;
   dxBig:= dxCell * MenuStylerTheme.IndentBigPercents div 100;
 
+  IconW:= 0;
+  IconH:= 0;
   Images:= mi.GetParentMenu.Images;
   if Assigned(Images) then
-    dxBig:= Max(dxBig, Images.Width + dxCell * MenuStylerTheme.IndentIconPercents * 2 div 100);
+  begin
+    IconW:= Images.Width;
+    IconH:= Images.Height;
+  end;
+
+  //todo: support MenuItem.Bitmap
+  if IconW>0 then
+    dxBig:= Max(dxBig, IconW + dxCell * MenuStylerTheme.IndentIconPercents * 2 div 100);
 
   if mi.IsLine then
   begin
@@ -210,7 +220,7 @@ begin
   begin
     Images.Draw(ACanvas,
       dxCell * MenuStylerTheme.IndentIconPercents div 100,
-      (ARect.Top+ARect.Bottom-Images.Height) div 2,
+      (ARect.Top+ARect.Bottom-IconH) div 2,
       mi.ImageIndex, not bDisabled);
   end
   else
