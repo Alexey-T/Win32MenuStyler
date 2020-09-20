@@ -74,6 +74,14 @@ begin
   AMenu.OwnerDraw:= true;
   AMenu.OnDrawItem:= @HandleMenuDrawItem;
 
+  //it don't work!
+  {
+  if AMenu is TPopupMenu then
+    with (AMenu as TPopupMenu) do
+      if not Assigned(OnPopup) then
+        OnPopup:= @HandleMenuPopup;
+        }
+
   //it dont work!
   //ApplyBackColor(AMenu.Handle, false);
 end;
@@ -254,8 +262,12 @@ end;
 
 procedure TWin32MenuStyler.HandleMenuPopup(Sender: TObject);
 begin
+  //it dont work!
+  {
   if Sender is TPopupMenu then
-    ApplyToMenu(Sender as TPopupMenu);
+    with (Sender as TPopupMenu) do
+      ApplyBackColor(Handle, false);
+  }
 end;
 
 initialization
