@@ -56,6 +56,7 @@ type
     MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem40: TMenuItem;
+    MenuItemBmp: TMenuItem;
     MenuItem5: TMenuItem;
     normal: TMenuItem;
     MenuItem6: TMenuItem;
@@ -74,6 +75,7 @@ type
   private
     FOrigWndState: TWindowState;
     FOrigBounds: TRect;
+    bmp: TBitmap;
     procedure SetFullScreen(AValue: boolean);
     procedure SetTheme(AColor: TColor);
 
@@ -101,7 +103,15 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  fn: string;
 begin
+  bmp:= TBitmap.Create;
+  fn:= ExtractFilePath(Application.ExeName)+'icon1.bmp';
+  if FileExists(fn) then
+    bmp.LoadFromFile(fn);
+  MenuItemBmp.Bitmap:= bmp;
+
   SetTheme(clPurple);
 end;
 

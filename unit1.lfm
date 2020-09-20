@@ -233,6 +233,9 @@ object Form1: TForm1
       ImageIndex = 4
       RadioItem = True
     end
+    object MenuItemBmp: TMenuItem
+      Caption = 'with bitmap'
+    end
   end
   object ImageList1: TImageList
     AllocBy = 8
