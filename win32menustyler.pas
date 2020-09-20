@@ -222,7 +222,7 @@ begin
   R.Bottom:= ARect.Bottom;
   Windows.DrawTextW(ACanvas.Handle, PWideChar(BufW), Length(BufW), R, NDrawFlags);
 
-  if (not bInBar) and Assigned(mi.Bitmap) then
+  if (not bInBar) and Assigned(mi.Bitmap) and (mi.Bitmap.Width>0) then
   begin
     ACanvas.Draw(
       ARect.Left + (dx-mi.Bitmap.Width) div 2,
