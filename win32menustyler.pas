@@ -37,8 +37,10 @@ type
 
   TWin32MenuStyler = class
   private
+    procedure ApplyBackColor(h: HMENU; AReset: boolean);
     procedure HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; AState: TOwnerDrawState);
+    procedure HandleMenuPopup(Sender: TObject);
   public
     procedure ApplyToMenu(AMenu: TMenu);
     procedure ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
@@ -53,41 +55,40 @@ var
 
 implementation
 
-procedure TWin32MenuStyler.ApplyToMenu(AMenu: TMenu);
-{
+procedure TWin32MenuStyler.ApplyBackColor(h: HMENU; AReset: boolean);
 var
   mi: TMENUINFO;
-  }
+begin
+  FillChar(mi{%H-}, sizeof(mi), 0);
+  mi.cbSize:= sizeof(mi);
+  mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
+  if AReset then
+    mi.hbrBack:= 0
+  else
+    mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
+  SetMenuInfo(h, @mi);
+end;
+
+procedure TWin32MenuStyler.ApplyToMenu(AMenu: TMenu);
 begin
   AMenu.OwnerDraw:= true;
   AMenu.OnDrawItem:= @HandleMenuDrawItem;
 
-  {//it dont work!
-  //this is to theme 2-3 pixel frame around menu popups
-  FillChar(mi{%H-}, sizeof(mi), 0);
-  mi.cbSize:= sizeof(mi);
-  mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
-  mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
-  SetMenuInfo(AMenu.Handle, @mi);
-  }
+  //it dont work!
+  //ApplyBackColor(AMenu.Handle, false);
 end;
 
 procedure TWin32MenuStyler.ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
 var
   menu: TMainMenu;
-  mi: TMENUINFO;
 begin
   menu:= AForm.Menu;
   if menu=nil then exit;
 
   ApplyToMenu(menu);
 
-  //this is to theme 2-3 pixel frame around menu popups
-  FillChar(mi{%H-}, sizeof(mi), 0);
-  mi.cbSize:= sizeof(mi);
-  mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
-  mi.hbrBack:= CreateSolidBrush(MenuStylerTheme.ColorBk);
-  SetMenuInfo(GetMenu(AForm.Handle), @mi);
+  //theme 2-3 pixel frame around menu
+  ApplyBackColor(GetMenu(AForm.Handle), false);
 
   //repaint the menu bar
   if ARepaintEntireForm then
@@ -107,19 +108,12 @@ end;
 procedure TWin32MenuStyler.ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
 var
   menu: TMenu;
-  mi: TMENUINFO;
 begin
   menu:= AForm.Menu;
   if menu=nil then exit;
 
   ResetMenu(menu);
-
-  //this is to theme 2-3 pixel frame around menu popups
-  FillChar(mi{%H-}, sizeof(mi), 0);
-  mi.cbSize:= sizeof(mi);
-  mi.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
-  mi.hbrBack:= 0;
-  SetMenuInfo(GetMenu(AForm.Handle), @mi);
+  ApplyBackColor(GetMenu(AForm.Handle), true);
 
   //repaint the menu bar
   if ARepaintEntireForm then
@@ -256,6 +250,12 @@ begin
       ARect.Right,
       ARect.Bottom);
   end;
+end;
+
+procedure TWin32MenuStyler.HandleMenuPopup(Sender: TObject);
+begin
+  if Sender is TPopupMenu then
+    ApplyToMenu(Sender as TPopupMenu);
 end;
 
 initialization
