@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, Menus,
+  Dialogs,
   win32menustyler;
 
 type
@@ -16,6 +17,7 @@ type
     btnTheme1: TButton;
     btnTheme2: TButton;
     btnReset: TButton;
+    ButtonSetFontSize: TButton;
     ImageList1: TImageList;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
@@ -71,6 +73,7 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnTheme1Click(Sender: TObject);
     procedure btnTheme2Click(Sender: TObject);
+    procedure ButtonSetFontSizeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     FOrigWndState: TWindowState;
@@ -100,6 +103,18 @@ end;
 procedure TForm1.btnTheme2Click(Sender: TObject);
 begin
   SetTheme(clNavy);
+end;
+
+procedure TForm1.ButtonSetFontSizeClick(Sender: TObject);
+var
+  S: string;
+  N: LongInt;
+begin
+  S:= InputBox('Set menu font size', 'Size:', '');
+  if not TryStrToInt(S, N) then exit;
+  if (N<6) or (N>40) then exit;
+  MenuStylerTheme.FontSize:= N;
+  RecreateWnd(Self);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
