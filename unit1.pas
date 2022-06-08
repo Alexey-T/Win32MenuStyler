@@ -155,7 +155,7 @@ begin
     BoundsRect:= FOrigBounds; //again
   end;
   if Color<>clWindow then
-    MenuStyler.ApplyToForm(Self, true);
+    MenuStyler.ApplyToForm(Self);
 end;
 
 procedure TForm1.SetTheme(AColor: TColor);
@@ -163,7 +163,7 @@ begin
   Self.Color:= AColor;
   MenuStylerTheme.ColorBk:= AColor;
   MenuStylerTheme.ColorBkSelected:= clDkGray;
-  MenuStyler.ApplyToForm(Self, true);
+  MenuStyler.ApplyToForm(Self);
   MenuStyler.ApplyToMenu(PopupMenu1);
 end;
 
